@@ -38,6 +38,8 @@ RUN mkdir $HADOOP_PREFIX/input
 RUN cp $HADOOP_PREFIX/etc/hadoop/*.xml $HADOOP_PREFIX/input
 
 # pseudo distributed
+RUN mkdir -p /usr/local/hadoop_store/hdfs/namenode
+RUN mkdir -p /usr/local/hadoop_store/hdfs/datanode
 ADD core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template
 RUN sed s/HOSTNAME/localhost/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > /usr/local/hadoop/etc/hadoop/core-site.xml
 ADD hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
@@ -80,7 +82,7 @@ RUN service ssh start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PREF
 CMD ["/etc/bootstrap.sh", "-d"]
 
 # Hdfs ports
-EXPOSE 50010 50020 50070 50075 50090
+EXPOSE 50010 50020 50070 50075 50090 54310 54311
 # Mapred ports
 EXPOSE 19888
 #Yarn ports
